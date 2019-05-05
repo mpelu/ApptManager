@@ -1,4 +1,4 @@
-#ApptManager
+# ApptManager
 
 create_database.sql
 ```
@@ -8,7 +8,7 @@ In Installation Wizard, select the following to download:
 - Workbench 
 - Shell (optional)
 - (necessary connectors tbd)
-_Any other options in the Wizard are up to the developer._
+Any other options in the Wizard are up to the developer.
 Open MySQL Workbench
 Create a MySQL connection or use an existing one
 Ctrl+Shift+O to open create_database.sql script
