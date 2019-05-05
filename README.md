@@ -8,7 +8,7 @@ In Installation Wizard, select the following to download:
 - Workbench 
 - Shell (optional)
 - (necessary connectors tbd)
-Any other options in the Wizard are up to the developer.
+Any other options in the Wizard are up to the developper.
 Open MySQL Workbench
 Create a MySQL connection or use an existing one
 Ctrl+Shift+O to open create_database.sql script
