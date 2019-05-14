@@ -5,8 +5,8 @@ Trigger for doctor columns
 Appointment end time
 
 Enums for People Type
-phone/fax bigint with separate field for extension
-
+Phone/fax bigint with separate field for extension
+Drop tables
 
 
 
