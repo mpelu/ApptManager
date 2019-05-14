@@ -20,7 +20,7 @@ USE APPTMANAGER;
 
 CREATE TABLE People ( 
   PeopleID int NOT NULL AUTO_INCREMENT,
-  Type varchar (8) NOT NULL CHECK (Type IN ('Doctor', 'Patient')),
+  Type enum ('patient', 'doctor')  NOT NULL,
   CONSTRAINT PERSONS_PK PRIMARY KEY (PeopleID)
   );   
 
