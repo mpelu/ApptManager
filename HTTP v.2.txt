@@ -1,0 +1,64 @@
+Modify:
+PatientsMeds year prescribed, prescribing doctor
+Actions and Issues - date completed, status, comments
+Trigger for doctor columns
+Appointment end time
+
+Enums for People Type
+phone/fax bigint with separate field for extension
+
+
+
+
+POST
+----------------------------------------------------------------
+New People -Patient
+New People -Doctor
+New PatientsMeds (select or Post Medications)
+New Issues
+New ApptsIssues (select or Post Issues)
+New Actions
+New PeopleActions (select or Post Actions)
+
+
+GET
+----------------------------------------------------------------
+List Patients (all/for a doctor)
+List Doctors (all/for a patient)
+List Medications (all/for a patient*)
+List Issues (all/status/for an appointment*)
+List Appointments (all/status/for a patient/for a doctor/for a patient AND doctor)
+List Actions (all/status/for person responsible/for appointment*)
+
+Details page for list items
+
+*redirect to these ones: 
+List PeopleActions
+List PatientsMeds
+List ApptsIssues
+
+
+PUT
+----------------------------------------------------------------
+Patient
+Doctor
+Action
+Appointment
+Issue
+Medication
+PatientsMeds -can redirect to Put Medications 
+ApptsIssues -can redirect to Put Issues
+PeopleActions -can redirect to Put Actions
+
+DELETE
+----------------------------------------------------------------
+People -Patient
+People -Doctor
+Medications
+Issues
+Appointments
+Actions
+PeopleActions (unassign)
+PatientsMeds (unassign)
+ApptsIssues (unassign)
+
