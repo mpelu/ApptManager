@@ -13,15 +13,20 @@ var con = mysql.createConnection({
     console.log("Connected!");
   });
 
-  con.query('INSERT INTO People (Type) VALUES ("doctor")', function (error, results, fields) {
-    if (error) throw error;
-    console.log('The PeopleID is ' + results.insertId); //insertId - primary key of inserted row
 
-    con.query('INSERT INTO Doctors (PeopleID, DocFirst, DocLast) VALUES (?, ?, ?)', [results.insertId, "Sylvia", "Rivera"], function (error, results, fields) {
+
+  function addDoctor(FirstName, LastName) {
+    con.query('INSERT INTO People (Type) VALUES ("doctor")', function (error, results, fields) {
         if (error) throw error;
-        console.log('The DoctorID is: ' + results.insertId);
+        console.log('The PeopleID is ' + results.insertId); //insertId - primary key of inserted row
+    
+        con.query('INSERT INTO Doctors (PeopleID, DocFirst, DocLast) VALUES (?, ?, ?)', [results.insertId, FirstName, LastName], function (error, results, fields) {
+            if (error) throw error;
+            console.log('The DoctorID is: ' + results.insertId);
+          });
       });
-  });
+  }
 
+addDoctor("Sylvia", "Rivera");
 
  // con.end();
