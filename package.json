@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mpelu/ApptManager/issues"
   },
-  "homepage": "https://github.com/mpelu/ApptManager#readme"
+  "homepage": "https://github.com/mpelu/ApptManager#readme",
+  "dependencies": {
+    "mysql": "^2.17.1"
+  }
 }

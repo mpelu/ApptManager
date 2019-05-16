@@ -4,6 +4,9 @@ DROP DATABASE IF EXISTS APPTMANAGER;
 
 
 CREATE DATABASE APPTMANAGER;
+CREATE USER IF NOT EXISTS 'backend'@'%' IDENTIFIED WITH mysql_native_password BY 'backend';
+GRANT ALL PRIVILEGES ON APPTMANAGER.* TO 'backend'@'%';
+FLUSH PRIVILEGES;
 USE APPTMANAGER;
 
 DROP TABLE IF EXISTS PEOPLEACTIONS;  
@@ -35,7 +38,8 @@ CREATE TABLE Patients (
   );  
   
 CREATE TABLE Doctors ( 
-  DoctorID int,
+  DoctorID int NOT NULL AUTO_INCREMENT,
+  PeopleID int,
   DocFirst varchar (30),
   DocLast varchar (30),
   OfficeName varchar (40),
@@ -50,7 +54,7 @@ CREATE TABLE Doctors (
   Email varchar (30),
   Fax  varchar (11),
   CONSTRAINT DOCTORS_PK PRIMARY KEY (DoctorID),
-  CONSTRAINT ID_DOCTORS_FK FOREIGN KEY (DoctorID) REFERENCES People (PeopleID) ON DELETE CASCADE
+  CONSTRAINT PEOPLEID_DOCTORS_FK FOREIGN KEY (PeopleID) REFERENCES People (PeopleID) ON DELETE CASCADE
   );   
 
 CREATE TABLE Medications ( 
