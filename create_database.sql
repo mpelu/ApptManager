@@ -29,12 +29,13 @@ CREATE TABLE People (
   );   
 
 CREATE TABLE Patients (
-  PatientID int,
+  PatientID int NOT NULL AUTO_INCREMENT,
+  PeopleID int,
   FirstName varchar (30) NOT NULL,
   LastName varchar (30),
   DateOfBirth datetime,
   CONSTRAINT PATIENTS_PK PRIMARY KEY (PatientID),
-  CONSTRAINT ID_PATIENTS_FK FOREIGN KEY (PatientID) REFERENCES People (PeopleID) ON DELETE CASCADE
+  CONSTRAINT PEOPLEID_PATIENTS_FK FOREIGN KEY (PeopleID) REFERENCES People (PeopleID) ON DELETE CASCADE
   );  
   
 CREATE TABLE Doctors ( 
