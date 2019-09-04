@@ -1,4 +1,10 @@
 var mysql = require('mysql'); //import mysql library
+const readline = require('readline');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 var con = mysql.createConnection({
     host: "127.0.0.1", // ip address of server running mysql
@@ -9,7 +15,7 @@ var con = mysql.createConnection({
 
   con.connect(function(err) {
     if (err) throw err;
-    console.log("Connected!");
+    //console.log("Connected!");
   });
 
 
@@ -198,8 +204,64 @@ async function handleApptIssues(){
   console.log(`Issue ${issueID} has been assigned to appointment ${apptID}`);
 }
 
-handleAppointments();
-handleApptIssues();
+async function ask(askText){
+return new Promise (resolve => {
+  rl.question(askText, answer => {
+    // rl.close();
+    resolve(answer)
+  })
+})
+
+ 
+}
+
+async function askPatientQuestions() {
+  let firstName = await ask("What is the first name?")
+  let lastName = await ask("What is the last name?")
+  console.log(`You chose to name the patient ${firstName} ${lastName}`);
+  let cerbyTwo = await addPatient(firstName, lastName)
+  console.log(`You chose to name the patient ${firstName} ${lastName} with an ID of ${cerbyTwo}`);
+
+  /*rl.question('What do you want to call the patient? ', async (answer) => {
+    // TODO: Log the answer in a database
+    let cerbyTwo = await addPatient(answer, "thecutest")
+    console.log(`You chose to name the patient ${answer} with an ID of ${cerbyTwo}`);
+  
+    rl.close();
+  });*/
+}
+
+async function askAppointmentQuestions(){
+  let patientId = await ask("What is the patient's ID number?")
+  let doctorId = await ask("What is the doctor's ID number?")
+
+  let firstAppt = await addAppointment(patientId, doctorId)
+
+  console.log(`You scheduled appointment ID# ${firstAppt} for Patient ID#${patientId} with Doctor ID#${doctorId}`)
+}
+
+
+async function userMenu(){
+    let answer = await ask("Hello, what would you like to do? Press the number, then press enter \n 1 - Add Patient\n 2 - Add Appointment")
+
+
+    //while loop with let answer inside it, add case to exit loop
+    switch(answer){
+      case "1": askPatientQuestions()
+        break;
+      case "2": askAppointmentQuestions()
+        break;
+      default: console.log(`${answer} is an invalid option`)
+    }
+    
+}
+
+
+
+//handleAppointments();
+//handleApptIssues();
+// askPatientQuestions()
+userMenu()
 
 
  // con.end();
