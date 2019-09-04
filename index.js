@@ -14,12 +14,12 @@ var con = mysql.createConnection({
 
 
   function addDoctor(FirstName, LastName) {
-    return new Promise(resolve => {
+    return new Promise(resolve => { //this enables await
       con.query('INSERT INTO People (Type) VALUES ("doctor")', function (error, results, fields) {
         if (error) throw error;
         console.log('The PeopleID is ' + results.insertId); //insertId - primary key of inserted row
     
-        // Patient, then Insert into Doctors
+        // Person, then Insert into Doctors
         con.query('INSERT INTO Doctors (PeopleID, DocFirst, DocLast) VALUES (?, ?, ?)', [results.insertId, FirstName, LastName], function (error, results, fields) {
             if (error) throw error;
             console.log('The DoctorID is: ' + results.insertId);
@@ -34,7 +34,7 @@ var con = mysql.createConnection({
       con.query('UPDATE Doctors SET DocFirst = ? WHERE DoctorID = ?', [FirstName, id], function (error, results, fields) {
         if (error) throw error;
         console.log('Doctor ' + id + ' is now called ' + FirstName); 
-        resolve(FirstName);
+        resolve(FirstName); 
       });
     });
   }
@@ -50,7 +50,7 @@ var con = mysql.createConnection({
   }
 
   function deleteDoctor(id){
-    return new Promise(resolve => { //this enables await. 
+    return new Promise(resolve => { 
       con.query('DELETE FROM People WHERE PeopleID = ?', [id], function (error, results, fields) {
           if (error) throw error;
           console.log('The Person with PeopleID ' + id + ' was deleted'); 
@@ -58,14 +58,14 @@ var con = mysql.createConnection({
           con.query('DELETE FROM Doctors WHERE PeopleID = ?', [id], function (error, results, fields) {
               if (error) throw error;
               console.log('The Doctor with PeopleID ' + id + ' was deleted');
-              resolve(true); //resolve - promise kept!
+              resolve(true); 
             });
         });
       });
   }
 
   function addPatient(First, Last){
-    return new Promise(resolve => { //this enables await. 
+    return new Promise(resolve => { 
     con.query('INSERT INTO People (Type) VALUES ("patient")', function (error, results, fields) {
       if (error) throw error;
       console.log('The PeopleID is ' + results.insertId);
@@ -73,7 +73,7 @@ var con = mysql.createConnection({
       con.query('INSERT INTO Patients (PeopleID, FirstName, LastName) VALUES (?, ?, ?)', [results.insertId, First, Last], function (error, results, fields) {
           if (error) throw error;
           console.log('The PatientID is: ' + results.insertId);
-          resolve(results.insertId); //resolve - promise kept!
+          resolve(results.insertId); 
         });
     });
   });
@@ -97,7 +97,7 @@ var con = mysql.createConnection({
       con.query('DELETE FROM Patients WHERE PeopleID = ?', [id], function (error, results, fields) {
           if (error) throw error;
           console.log('The Patient with PeopleID ' + id + ' was deleted');
-          resolve(true); //resolve - promise kept!
+          resolve(true); 
         });
     });
   });
@@ -111,7 +111,6 @@ var con = mysql.createConnection({
   // }
 
   // function editMedication(){}
-
   // function deleteMedication(){}
 
   function addIssue(PatientID, IssueText){
@@ -137,7 +136,6 @@ var con = mysql.createConnection({
   });
 }
 
-
   // function editAppointment(){}
   // function deleteAppointment(){}
 
@@ -160,44 +158,43 @@ var con = mysql.createConnection({
     });
   }
 
-async function addDoctors() {
-  let doctorDorianId = addDoctor("Dorian", "Carey");
-  let doctorSylviaId = addDoctor("Sylvia", "Rivera");
+async function handleDoctors() {
+  let doctorDwayneId = addDoctor("Dwayne", "Johnson");
   let doctorJohnId = addDoctor("John", "Cena");
-  await editDoctorFirst("Super", await doctorDorianId); // await 0 - don't go to next line until this one finished. await 1 - wait until ID is generated
-  await editDoctorLast("Effin Rivera", await doctorSylviaId);
+  await editDoctorFirst("Super", await doctorJohnId); // await 0 - don't go to next line until this one finished. await 1 - wait until ID is generated
+  await editDoctorLast("Super Cena", await doctorJohnId);
   let isDeleted = await deleteDoctor(await doctorJohnId);
   console.log(`Doctor deleted: ${isDeleted}`);
-  return doctorDorianId;
+  return doctorDwayneId;
 }
 
 async function handlePatients(){
-  let patientCorgiId = addPatient("Corgi", "Daniels");
-  let patientLabradoodleID = addPatient("Labradoodle", "Tomkins");
-  await editPatientFirst("SuperCorgi", await patientCorgiId);
-  let isDeleted = await deletePatient(await patientCorgiId);
+  let patientShawnId = addPatient("Shawn", "Michaels");
+  let patientRicId = addPatient("Ric", "Flair");
+  await editPatientFirst("HBK", await patientShawnId);
+  let isDeleted = await deletePatient(await patientShawnId);
   console.log(`Patient deleted: ${isDeleted}`);
-  return patientLabradoodleID;
+  return patientRicId;
 }
 
 async function handleAppointments(){
-  let docID = await addDoctors();
+  let docID = await handleDoctors();
   let patientID = await handlePatients();
   console.log(`the doctor id is: ${docID} and patient id is : ${patientID}`);
-  let apptCuteNameId = addAppointment(patientID, docID);
-  return apptCuteNameId;
+  let nextApptId = addAppointment(patientID, docID);
+  return nextApptId;
 }
 
 async function handleIssues(){
-  let cerbyID = await addPatient("Cerby", "McCutie");
-  let corgiButtsID = await addIssue(cerbyID, "Corgis have cute butts");
-  return corgiButtsID;
+  let steveID = await addPatient("Steve", "Austin");
+  let steveBeerID = await addIssue(cerbyID, "Drank all the beer");
+  return steveBeerID;
 }
 
 async function handleApptIssues(){
   let apptID = await handleAppointments();
   let issueID = await handleIssues();
-  let corgiButtsProblem = addApptIssue(apptID, issueID);
+  let steveBeerProblem = addApptIssue(apptID, issueID);
   console.log(`Issue ${issueID} has been assigned to appointment ${apptID}`);
 }
 
